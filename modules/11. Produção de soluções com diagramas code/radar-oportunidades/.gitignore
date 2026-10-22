@@ -1,0 +1,14 @@
+# ambiente
+.venv/
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# testes e banco local
+.pytest_cache/
+*.db
+*.sqlite3
