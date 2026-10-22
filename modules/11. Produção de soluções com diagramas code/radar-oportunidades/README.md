@@ -116,3 +116,25 @@ Fonte: [docs/diagrams/sequencia.mmd](docs/diagrams/sequencia.mmd)
 ## 5. Como usar como contexto para agentes
 
 Ver [AGENTS.md](AGENTS.md). Pendências para implementação: provedor de dados, definição e pesos do score, comparação por setor, ajustes por proventos e desdobramentos, modelo de dados, OpenAPI, autenticação, observabilidade e ADRs.
+
+## 6. Como executar
+
+```bash
+# backend
+python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
+.venv/bin/python -m coletor --once --db radar.db          # coleta + cálculo (provedor mockado)
+
+# API (OpenAPI em http://localhost:8000/docs)
+RADAR_DB=radar.db .venv/bin/python -m uvicorn api.main:app --port 8000
+
+# Web App (React): build único e serviço pela API
+cd src/webapp && npm install && npm run build && cd ../..
+RADAR_DB=radar.db RADAR_WEBAPP_DIR=src/webapp/dist .venv/bin/python -m uvicorn api.main:app --port 8000
+# UI em http://localhost:8000 — em desenvolvimento: cd src/webapp && npm run dev (proxy para :8000)
+
+# testes
+.venv/bin/python -m pytest          # containers Python
+cd src/webapp && npm test           # Web App (Vitest)
+```
+
+Decisões em `docs/adr/` (0001 stack, 0002 modelo de dados, 0003 ingestão, 0004 score, 0005 API, 0006 Web App React).

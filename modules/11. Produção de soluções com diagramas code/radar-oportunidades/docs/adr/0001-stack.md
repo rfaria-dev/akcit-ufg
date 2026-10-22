@@ -15,7 +15,7 @@ A documentação (`docs/descricao.md`) não define stack: tecnologia é lacuna. 
 - **SQLite via módulo `sqlite3` da stdlib, sem ORM**, acessado apenas pelo container Armazenamento (`src/storage/repository.py`): zero infraestrutura, SQL explícito e versionado em `schema.sql`.
 - **pytest + httpx** como stack de testes; testes em `tests/<container>/`.
 - **APScheduler no processo do Coletor**, com CLI `python -m coletor --once | --agendar`: agendamento versionado no código, sem fila (fora de escopo) e sem depender do SO.
-- **Web App em HTML/JS/CSS vanilla, sem build**, servido como estático pelo FastAPI (detalhe confirmado na Etapa 5).
+- **Web App em HTML/JS/CSS vanilla, sem build**, servido como estático pelo FastAPI (detalhe confirmado na Etapa 5). **Substituído pelo ADR 0006**: React 18 + Vite, servido da mesma forma.
 
 ## Consequências
 

@@ -12,3 +12,7 @@ build/
 .pytest_cache/
 *.db
 *.sqlite3
+
+# node (Web App)
+node_modules/
+src/webapp/dist/
