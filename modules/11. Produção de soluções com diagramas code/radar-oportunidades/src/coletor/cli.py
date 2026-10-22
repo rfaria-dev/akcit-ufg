@@ -8,10 +8,10 @@ Uso:
 import argparse
 import logging
 import os
-import sqlite3
 import sys
 import time
 
+from motor.motor import calcular as calcular_motor
 from storage.db import conectar, inicializar
 
 from .agendador import criar_agendador
@@ -24,14 +24,6 @@ logger = logging.getLogger("coletor")
 def _configurar_logging() -> None:
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s"
-    )
-
-
-def _motor_pendente(conn: sqlite3.Connection, data_referencia: str) -> None:
-    """Stub até a Etapa 3: o wiring apontará para o Motor real."""
-    logger.warning(
-        "motor de ranking ainda não implementado; cálculo não acionado (data_referencia=%s)",
-        data_referencia,
     )
 
 
@@ -69,7 +61,7 @@ def main(argv: list[str] | None = None) -> int:
     provedor = ProvedorMock(cenario=args.cenario)
 
     def rodar() -> None:
-        executar(conn, provedor, _motor_pendente)
+        executar(conn, provedor, calcular_motor)
 
     if args.once:
         rodar()
