@@ -1,0 +1,18 @@
+flowchart LR
+    U([Investidor])
+    subgraph S["Radar de Oportunidades - proposto"]
+        W["Web App<br/>SPA"]
+        A["API REST<br/>consulta de rankings"]
+        C["Coletor de dados<br/>execução agendada"]
+        M["Motor de indicadores e ranking"]
+        D[("Armazenamento<br/>dados de mercado, indicadores e rankings")]
+    end
+    P["Provedor de dados de mercado<br/>sistema externo"]
+
+    U -->|"Define critérios e consulta"| W
+    W -->|"JSON/HTTPS"| A
+    A -->|"Lê rankings e indicadores"| D
+    C -->|"Busca cotações e fundamentos"| P
+    C -->|"Grava dados brutos"| D
+    C -->|"Aciona cálculo"| M
+    M -->|"Lê dados e grava indicadores e score"| D

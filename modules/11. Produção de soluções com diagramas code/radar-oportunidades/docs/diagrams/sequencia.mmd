@@ -1,0 +1,29 @@
+sequenceDiagram
+    actor U as Investidor
+    participant W as Web App
+    participant A as API
+    participant C as Coletor
+    participant M as Motor de ranking
+    participant D as Armazenamento
+    participant P as Provedor de dados
+
+    Note over C,P: Ingestão agendada
+    C->>P: Solicita cotações e fundamentos
+    alt provedor disponível
+        P-->>C: Dados de mercado
+        C->>D: Grava dados brutos com data de referência
+        C->>M: Aciona cálculo de indicadores
+        M->>D: Lê dados brutos
+        M->>D: Grava indicadores e score
+    else indisponível ou timeout
+        P-->>C: Erro
+        C->>D: Marca dados como desatualizados
+    end
+
+    Note over U,D: Consulta de oportunidades
+    U->>W: Define critérios e filtros
+    W->>A: GET /oportunidades com critérios
+    A->>D: Consulta ranking e indicadores
+    D-->>A: Ativos ranqueados, data de referência, status
+    A-->>W: Lista com score e indicadores
+    W-->>U: Exibe ranking e aviso se dados desatualizados
